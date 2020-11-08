@@ -30,8 +30,6 @@ function replaceAds() {
                         .concat(Array.from(yt_renderers))
                         .concat(Array.from(yt_renderers2))
 
-    console.log(adElements)
-
     if (!!adElements) {
         for(var i = 0; i < adElements.length; i++) {
             if ((!!(adElements[i].outerHTML) && !(adElements[i].outerHTML.includes("random"))) || !(adElements[i].outerHTML)) {
