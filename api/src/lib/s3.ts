@@ -1,8 +1,8 @@
 import S3 from 'aws-sdk/clients/s3'
 import { v1 as uuidv1 } from 'uuid';
 
-export async function getSignedUrl(key: string) {
-  const newKey = `${uuidv1()}_${key}`;
+export async function getSignedUrl() {
+  const newKey = `${uuidv1()}`;
   const client = getS3Client();
   return {
     key: newKey,
