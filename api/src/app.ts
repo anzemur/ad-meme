@@ -4,6 +4,7 @@ import mongoose, { Connection } from 'mongoose';
 import { Server } from 'http';
 import { registerMemesRoutes } from './routes/memes';
 import { registerRootRoutes } from './routes/root';
+import { registerFileUploadRoutes } from './routes/file-upload';
 import { handleErrors, handleNotFoundError } from './middleware/errors';
 import { registerCors, registerBodyParsers, registerDeviceParsers, parseResponse } from './middleware/parsers';
 import { registerContext } from './middleware/context';
@@ -40,6 +41,7 @@ export class App {
     /* Register api routes. */
     registerRootRoutes(this.app);
     registerMemesRoutes(this.app);
+    registerFileUploadRoutes(this.app);
 
     /* Register api errors middleware. */
     this.app.use(handleNotFoundError);
