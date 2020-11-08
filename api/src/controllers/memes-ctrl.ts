@@ -5,6 +5,7 @@ import { HttpStatusCodes } from '../config/http-status-codes';
 import { Meme } from '../models/meme-mod';
 import { InternalServerError, NotFoundError } from '../lib/errors';
 import { toObjectId } from '../lib/parsers';
+import { getGetUrl, getObject } from '../lib/s3';
 
 /**
  * Memes controller.
@@ -66,6 +67,37 @@ export class MemesController extends Controller {
       res.return(HttpStatusCodes.OK, memes);
     } catch (error) {
       return next(new InternalServerError("There was problem while getting memes :(")); 
+    } 
+  }
+
+  /**
+   * Creates new meme.
+   */
+  @BoundMethod
+  public async createMeme(req: any, res: any, next: NextFunction) {
+    try {
+      
+      if (!req.body || !req.body.key) {
+        res.return(HttpStatusCodes.BadRequest, { msg: 'File key missing' });
+      }
+      if (await Meme.exists({
+        imageUrl: getGetUrl(req.body.key)
+      })) {
+        res.return(HttpStatusCodes.BadRequest, { msg: 'Meme with url already exists' });
+      }
+      try {
+        await getObject(req.body.key);
+        console.log(req.body);
+        const meme = Meme.create({
+          imageUrl: getGetUrl(req.body.key),
+          likes: 0,
+        });
+        res.return(HttpStatusCodes.OK, meme);
+      } catch (e) {
+        res.return(HttpStatusCodes.BadRequest, { msg: 'No such file' });
+      }
+    } catch (error) {
+      return next(new InternalServerError("There was problem while creating the meme :(")); 
     } 
   }
 
