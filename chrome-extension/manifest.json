@@ -1,0 +1,22 @@
+{
+   "browser_action": {
+      "default_icon": "images/icon48.png",
+      "default_popup": "popup.html"
+   },
+   "content_scripts": [ {
+      "js": [ "jquery.min.js", "CatBlock.js" ],
+      "matches": [ "https://*/*", "http://*/*" ]
+   } ],
+   "description": "Replace ads with cats.",
+   "icons": {
+      "128": "images/icon128.png",
+      "16": "images/icon16.png",
+      "48": "images/icon48.png"
+   },
+   "key": "MIIBIjANBgkqhmiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAs2VFlXkE05sqi630FRQPMbD3qid1NPHDbBxBLRUEOwVeLcUtLxUOOwFbyRuIvpxpk0bi7wePVTEqxhwEPDzlYNOfaeuM5V0QUt8jSnZHo+w99kyZfrqXOuBtG06moiOglhjTEIrPahWIUE2NKyqW8WajfVEO5PDVdBwbiNeMXIGT6jLxQunJ/dPZc+SJOubHogNUxQmsvAAITc/ScTQGoNlO6lzL6VjmLKvhcJIPFj/cmFdm63yzYY6R6K+FaCx6qEQPySgYb+Z7HYNW1/sEYCUrAqWY9FnZb7IwiAEQvHfISV7gktnpK+QXBGgOaYdg0eiW0ChwHC5b0fkQP6q+JQIDAQAB",
+   "manifest_version": 2,
+   "name": "AdMeme",
+   "permissions": [ "http://thecatapi.com/", "https://api.streamlee.com/*" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "1.1"
+}
