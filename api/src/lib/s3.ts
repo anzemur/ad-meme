@@ -22,6 +22,7 @@ function getS3Client() {
       secretAccessKey: process.env.AWS_SECRET_KEY,
     },
     signatureVersion: 'v4',
+    region: process.env.AWS_REG,
   });
 }
 
