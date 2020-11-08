@@ -22,7 +22,6 @@ Insert your own environment variables in the `.env` file. Below is an example.
 AWS_ACCESS_KEY_ID=<you-aws-access-key-id>
 AWS_SECRET_KEY=<you-aws-secret-key>
 AWS_BUCKET=<aws-bucket>
-JWT_SECRET=<my-jwt-secret>
 ENV=dev
 DB_URL=<mongodb-connection-link>
 DB_NAME=memes
