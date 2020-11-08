@@ -2,6 +2,7 @@
 //                 '*[class^="ad"]', "[class*='-ad']", "[class*='_ad']", "[class*=' ad']"];
      
 
+var currentLocation
 
 function replaceAds() {
     var selectors = ['*[src="r[0-9]+---sn-.*\.googlevideo\.com$"]', `*[src='r[0-9]+---sn-.*\.googlevideo\.com$']`,"*ytd-display-ad-renderer*"]
@@ -16,7 +17,7 @@ function replaceAds() {
 
     for(i=0;i<selectors.length;i++) {
         while($(selectors[i]).length){
-            $(selectors[i]).replaceWith(`<iframe iframe="" src="https://api.streamlee.com/v1/streams/list/5cbf08d49d8e2700104b27a9" width="100%" height="100%"><p>Your browser does not support iframes.</p></iframe>`);
+            $(selectors[i]).replaceWith(`<iframe src="https://api.streamlee.com/v1/streams/list/5cbf08d49d8e2700104b27a9" width="100%" height="100%"><p>Your browser does not support iframes.</p></iframe>`);
         }
     }
 
@@ -32,22 +33,16 @@ function replaceAds() {
 
     if (!!adElements) {
         for(var i = 0; i < adElements.length; i++) {
-            $(adElements[i]).replaceWith(`<iframe iframe="" src="https://api.streamlee.com/v1/streams/list/5cbf08d49d8e2700104b27a9" width="100%" height="100%"><p>Your browser does not support iframes.</p></iframe>`)
-
+            if ((!!(adElements[i].outerHTML) && !(adElements[i].outerHTML.includes("streamlee"))) || !(adElements[i].outerHTML)) {
+                $(adElements[i]).replaceWith(`<iframe iframe="" src="https://api.streamlee.com/v1/streams/list/5cbf08d49d8e2700104b27a9" width="100%" height="100%"><p>Your browser does not support iframes.</p></iframe>`)
+            }
         }
     }
-
-     
 }
 
-var pushState = history.pushState;
-history.pushState = function () {
-    console.log("Changing location")
-    pushState.apply(history, arguments);
-    fireEvents('pushState', arguments);  // Some event-handling function
-    replaceAds()
-};
 
-window.onload = () => {
+$(document).ready(() => {
+    currentLocation = location.href
+    setInterval(replaceAds, 1000)
     replaceAds()
-}
+})
