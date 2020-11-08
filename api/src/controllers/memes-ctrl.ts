@@ -5,6 +5,7 @@ import { HttpStatusCodes } from '../config/http-status-codes';
 import { Meme } from '../models/meme-mod';
 import { InternalServerError, NotFoundError } from '../lib/errors';
 import { toObjectId } from '../lib/parsers';
+import { getGetUrl, getObject } from '../lib/s3';
 
 /**
  * Memes controller.
@@ -26,6 +27,28 @@ export class MemesController extends Controller {
 
       if (memes.length > 0) {
         res.return(HttpStatusCodes.OK, memes[0]);
+      } else {
+        return next(new NotFoundError());
+      }
+
+    } catch (error) {
+      return next(new InternalServerError("There was problem while getting meme :("));
+    }
+  }
+
+  /**
+   * Get random meme in img elements.
+   */
+  @BoundMethod
+  public async getRandomMemeImgElement(req: any, res: any, next: NextFunction) {
+
+    try {
+      const memes  = await Meme.aggregate([{ $sample: { size: 1 } }])
+
+      if (memes.length > 0) {
+        const img = `<img src='${memes[0].imageUrl}' style='object-fit: contain; width: 100%; height: 100%;' />`
+        res.setHeader('Content-Type', 'text/html');
+        res.end(img);
       } else {
         return next(new NotFoundError());
       }
@@ -66,6 +89,36 @@ export class MemesController extends Controller {
       res.return(HttpStatusCodes.OK, memes);
     } catch (error) {
       return next(new InternalServerError("There was problem while getting memes :(")); 
+    } 
+  }
+
+  /**
+   * Creates new meme.
+   */
+  @BoundMethod
+  public async createMeme(req: any, res: any, next: NextFunction) {
+    try {
+      
+      if (!req.body || !req.body.key) {
+        res.return(HttpStatusCodes.BadRequest, { msg: 'File key missing' });
+      }
+      if (await Meme.exists({
+        imageUrl: getGetUrl(req.body.key)
+      })) {
+        res.return(HttpStatusCodes.BadRequest, { msg: 'Meme with url already exists' });
+      }
+      try {
+        await getObject(req.body.key);
+        const meme = Meme.create({
+          imageUrl: getGetUrl(req.body.key),
+          likes: 0,
+        });
+        res.return(HttpStatusCodes.OK, meme);
+      } catch (e) {
+        res.return(HttpStatusCodes.BadRequest, { msg: 'No such file' });
+      }
+    } catch (error) {
+      return next(new InternalServerError("There was problem while creating the meme :(")); 
     } 
   }
 
