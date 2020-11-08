@@ -3,7 +3,7 @@
     body {
       padding: 20px;
       width: 300px;
-      height: 500px;
+      height: 490px;
     }
 
     .meme-image {
@@ -33,19 +33,27 @@
 
     .upload-btn {
       margin-top: 20px;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       display: inline-block;
-
-
       background-color: #E12D2C;
       color: white;
       padding: 5px 7px;
       border: none;
     }
 
-    /* input[type="file"] {
+    input[type="file"] {
       display: none;
-    } */
+    }
+
+    #success-msg {
+      font-size: 14px;
+      margin-bottom: 10px;
+      color: #4BB543;
+    }
+
+    #success-msg.hidden {
+      visibility:hidden
+    }
 
     .img-wrapper {
       position: relative;
@@ -74,17 +82,14 @@
     <div class="top-memes" id="topMemes">
     </div>
 
-    <!-- <label class="upload-btn">
-      <input type="file"/>
+    <label class="upload-btn">
+      <input id="img-file" type="file" accept="image/*"/>
         Upload meme
-    </label> -->
+    </label>
+    <br>
+    <div id="success-msg" class="hidden">Congratulations! Meme uploaded.</div>
   </div>
 
-  <form enctype="multipart/form-data">
-    <input name="file" type="file" />
-    <input id="test" type="button" value="Upload" />
-  </form>
-  <progress></progress>
   
   <script src="jquery.min.js"></script>
   <script src="background.js"></script>

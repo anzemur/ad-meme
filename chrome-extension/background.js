@@ -17,7 +17,8 @@ var HttpClient = function() {
             aCallback(anHttpRequest.responseText);
       }
 
-      anHttpRequest.open("POST", aUrl, true);            
+      anHttpRequest.open("POST", aUrl, true);
+      anHttpRequest.setRequestHeader('Content-type','application/json; charset=utf-8');
       anHttpRequest.send(body);
     }
 
@@ -34,75 +35,31 @@ var HttpClient = function() {
     }
 }
 
-$('#test').on('click', function () {
-    console.log("hej")
-    var key = ""
-    var url = ""
-    debugger;
+$('#img-file').on('change', function () {
+  $("#success-msg").addClass('hidden');
 
-    var client = new HttpClient();
-    client.get('http://localhost:3000/api/v1/file-upload/signed-url', function(response) {
-        try {
-            response = JSON.parse(response)
-            key = response.key
-            url = response.url
+  var key = ""
+  var url = ""
 
-            var formData = new FormData($('form')[0]);
+  var client = new HttpClient();
+  client.get('http://localhost:3000/api/v1/file-upload/signed-url', function(response) {
+    try {
+      response = JSON.parse(response)
+      key = response.key
+      url = response.url
 
-            var xhr = new XMLHttpRequest();
-            xhr.open("PUT", url, true);
-            // xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
-            xhr.onload = function () {
-              var users = JSON.parse(xhr.responseText);
-              if (xhr.readyState == 4 && xhr.status == "200") {
-                console.table(users);
-              } else {
-                console.error(users);
-              }
-            }
-            xhr.send(formData);
-
-            $.ajax({
-                // Your server script to process the upload
-                url: url,
-                type: 'PUT',
-            
-                // Form data
-                data: new FormData($('form')[0]),
-            
-                // Tell jQuery not to process data or worry about content-type
-                // You *must* include these options!
-                cache: false,
-                contentType: false,
-                processData: false,
-            
-                // Custom XMLHttpRequest
-                xhr: function () {
-                  var myXhr = $.ajaxSettings.xhr();
-                  if (myXhr.upload) {
-                    // For handling the progress of the upload
-                    myXhr.upload.addEventListener('progress', function (e) {
-                      if (e.lengthComputable) {
-                        $('progress').attr({
-                          value: e.loaded,
-                          max: e.total,
-                        });
-                      }
-                    }, false);
-                  }
-                  return myXhr;
-                }
-              });
-
-        } catch (error) {
-            console.log(error);
-        }    
-        
-    });
-
-
-    
+      var file = document.getElementById("img-file").files[0];
+      client.put(url, file, function(response) {
+        var postData = JSON.stringify({ key: key })
+        client.post('http://localhost:3000/api/v1/memes/', postData, function(response) {
+          $("#success-msg").removeClass('hidden');
+        })
+      })
+    } catch (error) {
+      console.log(error);
+    }
   });
+});
 
 var client = new HttpClient();
 client.get('http://localhost:3000/api/v1/memes', function(response) {
@@ -115,8 +72,7 @@ client.get('http://localhost:3000/api/v1/memes', function(response) {
         }
     } catch (error) {
         console.log(error);
-    }    
-    
+    }
 });
 
 
