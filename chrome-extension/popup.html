@@ -43,9 +43,9 @@
       border: none;
     }
 
-    input[type="file"] {
+    /* input[type="file"] {
       display: none;
-    }
+    } */
 
     .img-wrapper {
       position: relative;
@@ -74,17 +74,17 @@
     <div class="top-memes" id="topMemes">
     </div>
 
-    <label class="upload-btn">
+    <!-- <label class="upload-btn">
       <input type="file"/>
         Upload meme
-    </label>
-
-    <form enctype="multipart/form-data">
-      <input name="file" type="file" />
-      <input type="button" value="Upload" />
-    </form>
-    <progress></progress>
+    </label> -->
   </div>
+
+  <form enctype="multipart/form-data">
+    <input name="file" type="file" />
+    <input id="test" type="button" value="Upload" />
+  </form>
+  <progress></progress>
   
   <script src="jquery.min.js"></script>
   <script src="background.js"></script>
