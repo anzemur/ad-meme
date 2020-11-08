@@ -22,7 +22,7 @@ export function memesRoutes() {
   router.get('/random/img', memesController.getRandomMemeImgElement);
   router.get('/random', memesController.getRandomMeme);
   router.post('/', memesController.createMeme);
-  // router.put('/:memeId/like', memesController.likeMeme);
+  router.put('/:memeId/like', memesController.likeMeme);
 
   return router;
 }
