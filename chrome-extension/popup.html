@@ -70,7 +70,7 @@
   
   <div class="main-content">
     <div><p id="AdMeme"></p></div>
-    <p>Top rated memes:</p>
+    <p>Top rated daily memes:</p>
     <div class="top-memes" id="topMemes">
     </div>
 
@@ -78,6 +78,12 @@
       <input type="file"/>
         Upload meme
     </label>
+
+    <form enctype="multipart/form-data">
+      <input name="file" type="file" />
+      <input type="button" value="Upload" />
+    </form>
+    <progress></progress>
   </div>
   
   <script src="jquery.min.js"></script>
