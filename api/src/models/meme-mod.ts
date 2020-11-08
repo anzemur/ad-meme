@@ -6,11 +6,12 @@ import { prop, getModelForClass } from '@typegoose/typegoose';
  */
 export class MemeModel extends Model {
 
-  @prop({
-    required: true
-  })
-  firstName: string;
-  
+  @prop()
+  imageUrl: string;
+
+  @prop()
+  likes: number;
+
 }
 
 export const Meme = getModelForClass(MemeModel);

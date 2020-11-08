@@ -18,7 +18,9 @@ export function registerMemesRoutes(app: Application) {
 export function memesRoutes() {
   const router = Router();
 
-  router.get('/', memesController.getRandomMeme);
+  router.get('/', memesController.getTopRatedMemes);
+  router.get('/random', memesController.getRandomMeme);
+  // router.put('/:memeId/like', memesController.likeMeme);
 
   return router;
 }
