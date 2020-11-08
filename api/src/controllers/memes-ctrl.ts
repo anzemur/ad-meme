@@ -44,9 +44,25 @@ export class MemesController extends Controller {
 
     try {
       const memes  = await Meme.aggregate([{ $sample: { size: 1 } }])
-
       if (memes.length > 0) {
-        const img = `<img src='${memes[0].imageUrl}' style='object-fit: contain; width: 100%; height: 100%;' />`
+        const imagePutUrl = `${process.env.HOST_NAME}/api/${process.env.API_VERSION || 'v1'}/memes/${memes[0]._id}/like`;
+        const heart = `<svg style="
+        fill: red;
+        position: relative;
+        top: 5px;
+        width: 50px;" viewBox="0 0 32 29.6">
+        <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
+        c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/>
+      </svg> `
+        const img = `<div style="display: inline-block; position: relative;"><img src='${memes[0].imageUrl}' style='object-fit: contain; width: 100%; height: 100%;' /><div
+        onclick="((param) => {
+          const xhttp = new XMLHttpRequest();
+          param.style = 'visibility: hidden; height: 0;';
+          xhttp.open('PUT', '${imagePutUrl}', false);
+          xhttp.send();
+          param.style = 'display: none; position: relative;';
+        })(this)"
+        style="position: absolute; bottom: 1.5rem; right: 1.5rem;">${heart}</div></div>`
         res.setHeader('Content-Type', 'text/html');
         res.end(img);
       } else {
