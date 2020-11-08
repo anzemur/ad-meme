@@ -37,6 +37,28 @@ export class MemesController extends Controller {
   }
 
   /**
+   * Get random meme in img elements.
+   */
+  @BoundMethod
+  public async getRandomMemeImgElement(req: any, res: any, next: NextFunction) {
+
+    try {
+      const memes  = await Meme.aggregate([{ $sample: { size: 1 } }])
+
+      if (memes.length > 0) {
+        const img = `<img src='${memes[0].imageUrl}' style='object-fit: contain; width: 100%; height: 100%;' />`
+        res.setHeader('Content-Type', 'text/html');
+        res.end(img);
+      } else {
+        return next(new NotFoundError());
+      }
+
+    } catch (error) {
+      return next(new InternalServerError("There was problem while getting meme :("));
+    }
+  }
+
+  /**
    * Likes a meme.
    */
   @BoundMethod
@@ -87,7 +109,6 @@ export class MemesController extends Controller {
       }
       try {
         await getObject(req.body.key);
-        console.log(req.body);
         const meme = Meme.create({
           imageUrl: getGetUrl(req.body.key),
           likes: 0,

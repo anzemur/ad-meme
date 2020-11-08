@@ -9,7 +9,8 @@ export async function getSignedUrl(key: string) {
     url: await client.getSignedUrlPromise('putObject', {
       Key: newKey,
       Bucket: process.env.AWS_BUCKET,
-      Expires: 60 // seconds
+      Expires: 60, // seconds
+      ACL: 'public-read',
     }),
   }
 }

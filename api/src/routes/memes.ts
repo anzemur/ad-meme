@@ -19,6 +19,7 @@ export function memesRoutes() {
   const router = Router();
 
   router.get('/', memesController.getTopRatedMemes);
+  router.get('/random/img', memesController.getRandomMemeImgElement);
   router.get('/random', memesController.getRandomMeme);
   router.post('/', memesController.createMeme);
   // router.put('/:memeId/like', memesController.likeMeme);
