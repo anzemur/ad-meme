@@ -10,7 +10,7 @@ export async function getSignedUrl() {
       Key: newKey,
       Bucket: process.env.AWS_BUCKET,
       Expires: 60, // seconds
-      ACL: 'public-read',
+      ACL: 'public-read-write',
     }),
   }
 }
@@ -20,7 +20,9 @@ function getS3Client() {
     credentials: {
       accessKeyId: process.env.AWS_ACCESS_KEY_ID,
       secretAccessKey: process.env.AWS_SECRET_KEY,
-    }
+    },
+    signatureVersion: 'v4',
+    region: process.env.AWS_REG,
   });
 }
 
