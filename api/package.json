@@ -1,0 +1,58 @@
+{
+  "name": "ad-memes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/scripts/start.js",
+  "author": "Anze Mur <anze.mur50@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anzemur/ad-meme"
+  },
+  "scripts": {
+    "dev": "concurrently --kill-others \"tsc -w\" \"nodemon dist/scripts/start.js\"",
+    "build-ts": "tsc",
+    "postinstall": "npm run build-ts",
+    "start": "tsc && node dist/scripts/start.js",
+    "watch-node": "nodemon dist/scripts/start.js",
+    "watch-ts": "tsc -w",
+    "lint": "tslint --project tsconfig.json \"src/**/*.ts?(x)\""
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/chai": "^4.1.7",
+    "@types/cors": "^2.8.5",
+    "@types/dotenv": "^6.1.1",
+    "@types/express": "^4.16.1",
+    "@types/joi": "^14.3.3",
+    "@types/jsonwebtoken": "^8.3.2",
+    "@types/mocha": "^5.2.6",
+    "@types/mongoose": "^5.5.3",
+    "@types/supertest": "^2.0.7",
+    "chai": "^4.2.0",
+    "concurrently": "^2.2.0",
+    "mocha": "^6.1.4",
+    "nodemon": "^1.19.0",
+    "supertest": "^4.0.2",
+    "ts-node": "^8.3.0",
+    "tslint": "^5.16.0",
+    "tslint-sonarts": "^1.9.0",
+    "typescript": "^3.4.5"
+  },
+  "dependencies": {
+    "@hapi/joi": "^15.0.3",
+    "@typegoose/typegoose": "^6.4.0",
+    "autobind-decorator": "^2.4.0",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^8.0.0",
+    "express": "^4.17.0",
+    "express-device": "^0.4.2",
+    "express-rate-limit": "^5.0.0",
+    "joi": "^14.3.1",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.24.0",
+    "mongodb": "^3.2.6",
+    "mongoose": "^5.5.11",
+    "winston": "^3.2.1"
+  }
+}
