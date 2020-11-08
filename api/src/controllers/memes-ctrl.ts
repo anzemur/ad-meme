@@ -58,7 +58,7 @@ export class MemesController extends Controller {
         onclick="((param) => {
           const xhttp = new XMLHttpRequest();
           param.style = 'visibility: hidden; height: 0;';
-          xhttp.open('PUT', '${imagePutUrl}', false);
+          xhttp.open('PUT', '${imagePutUrl}', true);
           xhttp.send();
           param.style = 'display: none; position: relative;';
         })(this)"
