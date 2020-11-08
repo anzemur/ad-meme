@@ -34,11 +34,17 @@
     .upload-btn {
       margin-top: 20px;
       margin-bottom: 20px;
+      display: inline-block;
+
 
       background-color: #E12D2C;
       color: white;
       padding: 5px 7px;
       border: none;
+    }
+
+    input[type="file"] {
+      display: none;
     }
 
     .img-wrapper {
@@ -67,7 +73,11 @@
     <p>Top rated memes:</p>
     <div class="top-memes" id="topMemes">
     </div>
-    <button class="upload-btn">Upload meme</button>
+
+    <label class="upload-btn">
+      <input type="file"/>
+        Upload meme
+    </label>
   </div>
   
   <script src="jquery.min.js"></script>
