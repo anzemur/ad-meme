@@ -28,11 +28,11 @@ export class MemesController extends Controller {
       if (memes.length > 0) {
         res.return(HttpStatusCodes.OK, memes[0]);
       } else {
-        throw new NotFoundError();
+        return next(new NotFoundError());
       }
 
     } catch (error) {
-      throw new InternalServerError("There was problem while getting meme :(");
+      return next(new InternalServerError("There was problem while getting meme :("));
     }
   }
 
@@ -49,7 +49,7 @@ export class MemesController extends Controller {
       );
       res.return(HttpStatusCodes.OK, meme);
     } catch (error) {
-      throw new InternalServerError("There was problem while liking a meme :("); 
+      return next(new InternalServerError("There was problem while liking a meme :(")); 
     } 
   }
 
@@ -66,7 +66,7 @@ export class MemesController extends Controller {
 
       res.return(HttpStatusCodes.OK, memes);
     } catch (error) {
-      throw new InternalServerError("There was problem while getting memes :("); 
+      return next(new InternalServerError("There was problem while getting memes :(")); 
     } 
   }
 

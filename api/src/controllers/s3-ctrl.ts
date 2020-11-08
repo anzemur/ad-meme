@@ -3,9 +3,10 @@ import { boundMethod as BoundMethod } from 'autobind-decorator';
 import { NextFunction } from 'express';
 import { HttpStatusCodes } from '../config/http-status-codes';
 import { getSignedUrl } from '../lib/s3';
+import { BadRequestError } from '../lib/errors';
 
 /**
- * Memes controller.
+ * S3 controller.
  */
 export class S3Controller extends Controller {
  
@@ -14,13 +15,12 @@ export class S3Controller extends Controller {
    }
 
   /**
-   * Get random meme.
+   * Gets signed S3 url.
    */
   @BoundMethod
   public async getSignedS3Url(req: any, res: any, next: NextFunction) {
-    const userId = req.params.userId;
     if (!req.body || !req.body.key) {
-      res.return(HttpStatusCodes.BadRequest, { msg: 'File key missing' });
+      next(new BadRequestError('File key missing'));
     }
     res.return(HttpStatusCodes.OK, await getSignedUrl(req.body.key));
   }
