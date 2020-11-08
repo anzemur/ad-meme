@@ -3,6 +3,7 @@
      
 
 var currentLocation
+const adLink = "http://localhost:3000/api/v1/memes/random/img"
 
 function replaceAds() {
     var selectors = ['*[src="r[0-9]+---sn-.*\.googlevideo\.com$"]', `*[src='r[0-9]+---sn-.*\.googlevideo\.com$']`,"*ytd-display-ad-renderer*"]
@@ -33,8 +34,8 @@ function replaceAds() {
 
     if (!!adElements) {
         for(var i = 0; i < adElements.length; i++) {
-            if ((!!(adElements[i].outerHTML) && !(adElements[i].outerHTML.includes("streamlee"))) || !(adElements[i].outerHTML)) {
-                $(adElements[i]).replaceWith(`<iframe iframe="" src="https://api.streamlee.com/v1/streams/list/5cbf08d49d8e2700104b27a9" width="100%" height="100%"><p>Your browser does not support iframes.</p></iframe>`)
+            if ((!!(adElements[i].outerHTML) && !(adElements[i].outerHTML.includes("random"))) || !(adElements[i].outerHTML)) {
+                $(adElements[i]).replaceWith(`<iframe iframe="" src="${adLink}" width="100%" height="100%"><p>Your browser does not support iframes.</p></iframe>`)
             }
         }
     }
