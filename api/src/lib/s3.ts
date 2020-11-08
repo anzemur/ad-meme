@@ -3,18 +3,36 @@ import { v1 as uuidv1 } from 'uuid';
 
 export async function getSignedUrl(key: string) {
   const newKey = `${uuidv1()}_${key}`;
-  const client = new S3({
-    credentials: {
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.AWS_SECRET_KEY,
-    }
-  })
+  const client = getS3Client();
   return {
     key: newKey,
     url: await client.getSignedUrlPromise('putObject', {
       Key: newKey,
       Bucket: process.env.AWS_BUCKET,
       Expires: 60 // seconds
-    })
+    }),
   }
+}
+
+function getS3Client() {
+  return new S3({
+    credentials: {
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_KEY,
+    }
+  });
+}
+
+export async function getObject(key: string) {
+  const client = getS3Client();
+  return client.getObject(
+    {
+      Key: key,
+      Bucket: process.env.AWS_BUCKET,
+    }
+  ).promise();
+}
+
+export function getGetUrl(key: string) {
+  return `https://${process.env.AWS_BUCKET}.s3.${process.env.AWS_REG}.amazonaws.com/${key}`
 }
