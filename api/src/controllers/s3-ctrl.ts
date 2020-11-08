@@ -19,9 +19,6 @@ export class S3Controller extends Controller {
    */
   @BoundMethod
   public async getSignedS3Url(req: any, res: any, next: NextFunction) {
-    if (!req.body || !req.body.key) {
-      next(new BadRequestError('File key missing'));
-    }
-    res.return(HttpStatusCodes.OK, await getSignedUrl(req.body.key));
+    res.return(HttpStatusCodes.OK, await getSignedUrl());
   }
 }
